@@ -404,25 +404,25 @@ int main() {
 	setcaption("Whywait团队：GAME2048");
 
 	/*加载图片*/
-	getimage(p[0] = newimage(), "Images\\0.jpg");
-	getimage(p[1] = newimage(), "Images\\2.jpg");
-	getimage(p[2] = newimage(), "Images\\4.jpg");
-	getimage(p[3] = newimage(), "Images\\8.jpg");
-	getimage(p[4] = newimage(), "Images\\16.jpg");
-	getimage(p[5] = newimage(), "Images\\32.jpg");
-	getimage(p[6] = newimage(), "Images\\64.jpg");
-	getimage(p[7] = newimage(), "Images\\128.jpg");
-	getimage(p[8] = newimage(), "Images\\256.jpg");
-	getimage(p[9] = newimage(), "Images\\512.jpg");
-	getimage(p[10] = newimage(), "Images\\1024.jpg");
-	getimage(p[11] = newimage(), "Images\\2048.jpg");
-	getimage(p[12] = newimage(), "Images\\4096.jpg");
-	getimage(p[13] = newimage(), "Images\\8192.jpg");
-	getimage(p[14] = newimage(), "Images\\16384.jpg");
-	getimage(win = newimage(), "Images\\win.jpg");
-	getimage(lose = newimage(), "Images\\gameover.jpg");
-	getimage(bkg = newimage(), "Images\\小清新.jpg");
-	getimage(rules = newimage(), "Images\\rules.jpg");
+	getimage(p[0]      = newimage(), "Images\\0.jpg");
+	getimage(p[1]      = newimage(), "Images\\2.jpg");
+	getimage(p[2]      = newimage(), "Images\\4.jpg");
+	getimage(p[3]      = newimage(), "Images\\8.jpg");
+	getimage(p[4]      = newimage(), "Images\\16.jpg");
+	getimage(p[5]      = newimage(), "Images\\32.jpg");
+	getimage(p[6]      = newimage(), "Images\\64.jpg");
+	getimage(p[7]      = newimage(), "Images\\128.jpg");
+	getimage(p[8]      = newimage(), "Images\\256.jpg");
+	getimage(p[9]      = newimage(), "Images\\512.jpg");
+	getimage(p[10]     = newimage(), "Images\\1024.jpg");
+	getimage(p[11]     = newimage(), "Images\\2048.jpg");
+	getimage(p[12]     = newimage(), "Images\\4096.jpg");
+	getimage(p[13]     = newimage(), "Images\\8192.jpg");
+	getimage(p[14]     = newimage(), "Images\\16384.jpg");
+	getimage(win       = newimage(), "Images\\win.jpg");
+	getimage(lose      = newimage(), "Images\\gameover.jpg");
+	getimage(bkg       = newimage(), "Images\\小清新.jpg");
+	getimage(rules     = newimage(), "Images\\rules.jpg");
 	getimage(final_win = newimage(), "Images\\胜利.jpg");
 
 	while (!isquit) {                                                                  //除非点击ESC，否则可以反复开局
