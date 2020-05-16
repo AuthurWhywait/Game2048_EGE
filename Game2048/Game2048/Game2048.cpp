@@ -81,7 +81,6 @@ void num_to_string_10(int num, char* string) {                                  
 		temp[string_length] = num % 10;
 		num = (num - temp[string_length]) / 10;
 	}
-	                                                                                   //temp[string_length++] = num;
 	if (!string_length) {
 		strcpy(string, "0");
 		return;
@@ -430,7 +429,6 @@ int main() {
 		ismove = true;                                                                 //矩阵状态是否改变。true：改变；false：没有改变。以决定是否要调用random函数
 		bool isOK = true;                                                              //是否可以继续运行(算法判定）。true：没死， false：死了。
 		bool have2048 = false;                                                         //矩阵中是否存在2048。true：有；false：没有。
-																					   //bool is_refresh = false;//状态矩阵是否更新
 		int** nums = init_nums();                                                      //当前状态矩阵
 		int nums_assist_size = REDO_TIMES;                                             //撤销步数上界
 		int*** nums_assist = (int***)calloc(nums_assist_size, sizeof(int**));
