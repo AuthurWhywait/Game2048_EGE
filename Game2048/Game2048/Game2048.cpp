@@ -81,7 +81,7 @@ void num_to_string_10(int num, char* string) {                                  
 		temp[string_length] = num % 10;
 		num = (num - temp[string_length]) / 10;
 	}
-	//temp[string_length++] = num;
+	                                                                                   //temp[string_length++] = num;
 	if (!string_length) {
 		strcpy(string, "0");
 		return;
