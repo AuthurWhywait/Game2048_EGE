@@ -351,11 +351,6 @@ void printWin(PIMAGE win, PIMAGE bkg) {
 void printFinalwin(PIMAGE win2_final) {
 	cleardevice();
 	putimage(0, 0, win2_final);
-	/*char str[] = "VICTORY";
-	int text_width = textwidth(str);
-	setcolor(EGERGB(232, 232, 232));
-	setfont(40, 0, "»ªÎÄÁ¥Êé");
-	xyprintf((WIDTH - text_width) / 2, HEIGHT / 4, str);*/
 }
 
 void printLose(PIMAGE lose, PIMAGE bkg) {
