@@ -19,4 +19,69 @@
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Images\0.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\2.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\4.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\8.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\16.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\32.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\64.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\128.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\256.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\512.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\1024.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\2048.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\2048a.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\4096.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\8192.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\16384.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\gameover.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\rules.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\win.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\小清新.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="Images\胜利.jpg">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

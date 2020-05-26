@@ -1,18 +1,18 @@
-/**
-* 项目名称：游戏2048
-* 开发日期：2020年5月6日
-* 开发团队：Whywait团队
-* 项目说明：
-*	1.操作说明：移动键盘方向键来控制游戏，ESC退出游戏，ENTER继续游戏，backspace返回上一步；
-*	2.游戏说明：出现2048即为赢得游戏，赢得游戏之后可以继续游戏；
-*	3.游戏特色：
-*		a. 更加刺激：每次滑动，都将滑动路径上的所有可以消除的方块全部消除；
-*		b. 2048以及以后的方块都另外设计，可解锁惊喜；
-*		c. 出现数值为16384的方块，即为赢得最终胜利，游戏结束；
-*		d. 随着得分的增加，分数字体的颜色会相应改变。分为 灰赤橙黄绿青蓝紫 八个等级；
-*		e. 随机出现2或4，出现2的概率设置为0.7；
-*		f. 撤销步数上限200，放开手脚，快乐玩耍！
-*/
+/*
+ * 项目名称：游戏2048
+ * 开发日期：2020年5月6日
+ * 开发团队：Whywait团队
+ * 项目说明：
+ *	1.操作说明：移动键盘方向键来控制游戏，ESC退出游戏，ENTER继续游戏，backspace返回上一步；
+ *	2.游戏说明：出现2048即为赢得游戏，赢得游戏之后可以继续游戏；
+ *	3.游戏特色：
+ *		a. 更加刺激：每次滑动，都将滑动路径上的所有可以消除的方块全部消除；
+ *		b. 2048以及以后的方块都另外设计，可解锁惊喜；
+ *		c. 出现数值为16384的方块，即为赢得最终胜利，游戏结束；
+ *		d. 随着得分的增加，分数字体的颜色会相应改变。分为 灰赤橙黄绿青蓝紫 八个等级；
+ *		e. 随机出现2或4，出现2的概率设置为0.7；
+ *		f. 撤销步数上限200，放开手脚，快乐玩耍！
+ */
 
 #include<graphics.h>
 #include<stdio.h>
@@ -59,7 +59,7 @@ COLORREF rainbow_color[8] = {                                                   
 	BLUE,                                                                              //蓝
 	EGERGB(160, 32, 240)                                                               //紫
 };
-typedef struct myStack {                                                               //“栈类型”的数据结构，在不同的方向的滑动函数中使用（不过不是严格意义上的栈）
+typedef struct myStack {                                                               //类似栈的数据结构，在不同的方向的滑动函数中使用
 	int stack[LINE];
 	int top;
 } myStack;
@@ -169,28 +169,23 @@ int** deep_copy(int** nums) {                                                   
 	int** nums0 = (int**)malloc(sizeof(int*) * LINE);
 	for (int i = 0; i < LINE; i++) {
 		nums0[i] = (int*)malloc(sizeof(int) * LINE);
-		for (int j = 0; j < LINE; j++) {
+		for (int j = 0; j < LINE; j++)
 			nums0[i][j] = nums[i][j];
-		}
 	}
 	return nums0;
 }
 
 bool is_same(int** nums1, int** nums2) {                                               //判断两个状态矩阵是否相等
-	for (int i = 0; i < LINE; i++) {
-		for (int j = 0; j < LINE; j++) {
+	for (int i = 0; i < LINE; i++)
+		for (int j = 0; j < LINE; j++)
 			if (nums1[i][j] != nums2[i][j]) return false;
-		}
-	}
 	return true;
 }
 
 bool is_zeros(int** nums) {
-	for (int i = 0; i < LINE; i++) {
-		for (int j = 0; j < LINE; j++) {
+	for (int i = 0; i < LINE; i++)
+		for (int j = 0; j < LINE; j++)
 			if (nums[i][j]) return false;
-		}
-	}
 	return true;
 }
 
@@ -201,9 +196,8 @@ void adjust_nums_assist(int** nums, int*** nums_assist, int nums_assist_size, in
 		nums_assist[0] = deep_copy(nums);
 	}
 	else {
-		for (int i = 0; i + number < nums_assist_size; i++) {
+		for (int i = 0; i + number < nums_assist_size; i++)
 			nums_assist[i] = deep_copy(nums_assist[i + number]);
-		}
 	}
 }
 
@@ -222,9 +216,8 @@ void up(int** nums) {
 				S.stack[S.top - 1] = nums[i][j];
 				ismove = true;
 			}
-			else if (nums[i][j]) {
+			else if (nums[i][j])
 				S.stack[S.top++] = nums[i][j];
-			}
 			else;
 		}
 		int count = 0;
@@ -248,9 +241,8 @@ void down(int** nums) {
 				S.stack[S.top - 1] = nums[i][j];
 				ismove = true;
 			}
-			else if (nums[i][j]) {
+			else if (nums[i][j])
 				S.stack[S.top++] = nums[i][j];
-			}
 			else;
 		}
 		int count = 0;
@@ -274,9 +266,8 @@ void left(int** nums) {
 				S.stack[S.top - 1] = nums[i][j];
 				ismove = true;
 			}
-			else if (nums[i][j]) {
+			else if (nums[i][j])
 				S.stack[S.top++] = nums[i][j];
-			}
 			else;
 		}
 		int count = 0;
@@ -300,9 +291,8 @@ void right(int** nums) {
 				S.stack[S.top - 1] = nums[i][j];
 				ismove = true;
 			}
-			else if (nums[i][j]) {
+			else if (nums[i][j]) 
 				S.stack[S.top++] = nums[i][j];
-			}
 			else;
 		}
 		int count = 0;

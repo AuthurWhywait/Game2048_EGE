@@ -140,6 +140,29 @@
   <ItemGroup>
     <ClCompile Include="Game2048.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Images\0.jpg" />
+    <Image Include="Images\1024.jpg" />
+    <Image Include="Images\128.jpg" />
+    <Image Include="Images\16.jpg" />
+    <Image Include="Images\16384.jpg" />
+    <Image Include="Images\2.jpg" />
+    <Image Include="Images\2048.jpg" />
+    <Image Include="Images\2048a.jpg" />
+    <Image Include="Images\256.jpg" />
+    <Image Include="Images\32.jpg" />
+    <Image Include="Images\4.jpg" />
+    <Image Include="Images\4096.jpg" />
+    <Image Include="Images\512.jpg" />
+    <Image Include="Images\64.jpg" />
+    <Image Include="Images\8.jpg" />
+    <Image Include="Images\8192.jpg" />
+    <Image Include="Images\gameover.jpg" />
+    <Image Include="Images\rules.jpg" />
+    <Image Include="Images\win.jpg" />
+    <Image Include="Images\小清新.jpg" />
+    <Image Include="Images\胜利.jpg" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
