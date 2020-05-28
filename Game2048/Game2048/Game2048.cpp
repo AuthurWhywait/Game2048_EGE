@@ -24,47 +24,47 @@
 #include"conio.h"
 
 /*按键对应的键值*/
-#define LEFT		294                                                                //左键
-#define UP			293                                                                //上键
-#define RIGHT		296                                                                //右键
-#define DOWN		295                                                                //下键
-#define ESC			27                                                                 //ESC 退出键
-#define ENTER		13                                                                 //ENTER 继续键
-#define REDO		8		                                                           //backspace 键撤销
+#define LEFT		294                                                                     //左键
+#define UP			293                                                                     //上键
+#define RIGHT		296                                                                     //右键
+#define DOWN		295                                                                     //下键
+#define ESC			27                                                                      //ESC 退出键
+#define ENTER		13                                                                      //ENTER 继续键
+#define REDO		8		                                                                //backspace 键撤销
 /*窗口的属性*/
-#define TITLESIZE	80                                                                 //标题大小
-#define WIDTH		650                                                                // 窗口的宽
-#define HEIGHT		680                                                                //窗口的高
+#define TITLESIZE	80                                                                      //标题大小
+#define WIDTH		650                                                                     // 窗口的宽
+#define HEIGHT		680                                                                     //窗口的高
 /*游戏用户操控界面的属性*/
-#define LINE		4                                                                  //4*4的方块
-#define pos_X		(WIDTH-EDGE*LINE)/2+40                                             //左上角的横坐标:左右居中
-#define pos_Y		160                                                                //左上角的纵坐标
-#define EDGE		108                                                                //每个方格的长度
+#define LINE		4                                                                       //4*4的方块
+#define pos_X		(WIDTH-EDGE*LINE)/2+40                                                  //左上角的横坐标:左右居中
+#define pos_Y		160                                                                     //左上角的纵坐标
+#define EDGE		108                                                                     //每个方格的长度
 /*分数所在位置的属性*/
-#define FONTSIZE		28                                                             //分数显示字符大小
-#define POS_B1_WIDTH	pos_X	                                                       //分数方块左上角横坐标
-#define POS_B1_HEIGHT	pos_Y-FONTSIZE-2                                               //分数方块左上角纵坐标
+#define FONTSIZE		28                                                                  //分数显示字符大小
+#define POS_B1_WIDTH	pos_X	                                                            //分数方块左上角横坐标
+#define POS_B1_HEIGHT	pos_Y-FONTSIZE-2                                                    //分数方块左上角纵坐标
 /*游戏属性*/
-#define REDO_TIMES		200                                                            //游戏可返回上一步的次数上界（任意调节）
+#define REDO_TIMES		200                                                                 //游戏可返回上一步的次数上界（任意调节）
 
-int score = 0, score0 = 0;			                                                   //分数计数器
+int score = 0, score0 = 0;			                                                        //分数计数器
 int ismove = false;
-COLORREF rainbow_color[8] = {                                                          //彩虹色表明分数等级：
-	EGERGB(205, 201, 201),                                                             //灰
-	RED,                                                                               //红
-	EGERGB(255, 200, 0),                                                               //橙
-	EGERGB(255, 215, 0),                                                               //黄
-	GREEN,                                                                             //绿
-	EGERGB(64, 224, 208),                                                              //青
-	BLUE,                                                                              //蓝
-	EGERGB(160, 32, 240)                                                               //紫
+COLORREF rainbow_color[8] = {                                                               //彩虹色表明分数等级：
+	EGERGB(205, 201, 201),                                                                  //灰
+	RED,                                                                                    //红
+	EGERGB(255, 200, 0),                                                                    //橙
+	EGERGB(255, 215, 0),                                                                    //黄
+	GREEN,                                                                                  //绿
+	EGERGB(64, 224, 208),                                                                   //青
+	BLUE,                                                                                   //蓝
+	EGERGB(160, 32, 240)                                                                    //紫
 };
-typedef struct myStack {                                                               //类似栈的数据结构，在不同的方向的滑动函数中使用
+typedef struct myStack {                                                                    //类似栈的数据结构，在不同的方向的滑动函数中使用
 	int stack[LINE];
 	int top;
 } myStack;
 
-int index(int n) {                                                                     //为不同的数值n找到其对应的图片数组中的索引
+int index(int n) {                                                                          //为不同的数值n找到其对应的图片数组中的索引
 	if (!n) return 0;
 	int returnNum = 0;
 	while (n != 1) {
@@ -74,7 +74,7 @@ int index(int n) {                                                              
 	return returnNum;
 }
 
-void num_to_string_10(int num, char* string) {                                         //将数字转化为字符串，适应xyprintf()
+void num_to_string_10(int num, char* string) {                                              //将数字转化为字符串，适应xyprintf()
 	int temp[10] = { 0 };
 	int string_length = 0;
 	for (; num > 0; string_length++) {
@@ -90,7 +90,7 @@ void num_to_string_10(int num, char* string) {                                  
 		string[i] = '0' + temp[string_length - i - 1];
 }
 
-int** init_nums() {                                                                    //初始化一个数组
+int** init_nums() {                                                                         //初始化一个数组
 	int** nums = (int**)malloc(sizeof(int*) * LINE);
 	for (int i = 0; i < LINE; i++) {
 		*(nums + i) = (int*)malloc(sizeof(int) * LINE);
@@ -100,22 +100,22 @@ int** init_nums() {                                                             
 	return nums;
 }
 
-bool HaveEmpty(int** nums) {                                                           //检查是否有空余位置：true 或 false。
+bool HaveEmpty(int** nums) {                                                                //检查是否有空余位置：true 或 false。
 	for (int i = 0; i < LINE; i++)
 		for (int j = 0; j < LINE; j++)
 			if (!nums[i][j]) return true;
 	return false;
 }
 
-void random_2or4(int** nums) {                                                         //空余位子（元素为0）的位置随机出现一个2或者4
-	if (!HaveEmpty(nums)) return;                                                      //如果没有空余位置，而且用户还可以移动，跳过此函数
-	srand((unsigned)time(NULL));                                                       //位置随机
+void random_2or4(int** nums) {                                                              //空余位子（元素为0）的位置随机出现一个2或者4
+	if (!HaveEmpty(nums)) return;                                                           //如果没有空余位置，而且用户还可以移动，跳过此函数
+	srand((unsigned)time(NULL));                                                            //位置随机
 	int temp = rand(), count = 0, randnum = 0;
 	for (int i = 0; i < LINE; i++)
 		for (int j = 0; j < LINE; j++)
 			if (!nums[i][j]) count++;
 
-	randnum = (temp % 10) < 7 ? 2 : 4;                                                 //出现2的概率为0.7
+	randnum = (temp % 10) < 7 ? 2 : 4;                                                      //出现2的概率为0.7
 	temp %= count;
 	count = 0;
 	for (int i = 0; i < LINE; i++)
@@ -129,7 +129,7 @@ void random_2or4(int** nums) {                                                  
 		}
 }
 
-void refresh(int** nums, PIMAGE* p) {					                               //刷新游戏界面4*4方块视图
+void refresh(int** nums, PIMAGE* p) {					                                    //刷新游戏界面4*4方块视图
 	for (int i = 0; i < LINE; i++)
 		for (int j = 0; j < LINE; j++)
 			putimage(pos_X + EDGE * i, pos_Y + EDGE * j, p[index(nums[i][j])]);
@@ -144,20 +144,20 @@ COLORREF score_color() {
 	else return rainbow_color[7];
 }
 
-bool can_continue(int** nums) {                                                        //游戏是否可以继续：true or false
-	for (int i = 0; i < LINE; i++) {                                                   //行方向的检查
+bool can_continue(int** nums) {                                                             //游戏是否可以继续：true or false
+	for (int i = 0; i < LINE; i++) {                                                        //行方向的检查
 		for (int j = 0; j < LINE - 1; j++) {
 			if (!nums[i][j]) return true;
 			if (nums[i][j] == nums[i][j + 1]) return true;
 		}
 	}
-	for (int j = 0; j < LINE; j++)                                                     //列方向的检查
+	for (int j = 0; j < LINE; j++)                                                          //列方向的检查
 		for (int i = 0; i < LINE - 1; i++)
 			if (nums[i][j] == nums[i + 1][j]) return true;
 	return false;
 }
 
-bool iswin(int** nums, int target) {                                                   //判断是否达到某个数值
+bool iswin(int** nums, int target) {                                                        //判断是否达到某个数值
 	for (int i = 0; i < LINE; i++)
 		for (int j = 0; j < LINE; j++)
 			if (nums[i][j] == target)
@@ -165,7 +165,7 @@ bool iswin(int** nums, int target) {                                            
 	return false;
 }
 
-int** deep_copy(int** nums) {                                                          //深拷贝状态矩阵
+int** deep_copy(int** nums) {                                                               //深拷贝状态矩阵
 	int** nums0 = (int**)malloc(sizeof(int*) * LINE);
 	for (int i = 0; i < LINE; i++) {
 		nums0[i] = (int*)malloc(sizeof(int) * LINE);
@@ -175,7 +175,7 @@ int** deep_copy(int** nums) {                                                   
 	return nums0;
 }
 
-bool is_same(int** nums1, int** nums2) {                                               //判断两个状态矩阵是否相等
+bool is_same(int** nums1, int** nums2) {                                                    //判断两个状态矩阵是否相等
 	for (int i = 0; i < LINE; i++)
 		for (int j = 0; j < LINE; j++)
 			if (nums1[i][j] != nums2[i][j]) return false;
@@ -305,7 +305,7 @@ void right(int** nums) {
 
 /*一系列打印函数*/
 
-void printTitle() {                                                                    //输出标题
+void printTitle() {                                                                         //输出标题
 	setcolor(EGERGB(62, 224, 208));
 	setfont(TITLESIZE, 0, "华文隶书");
 	setbkmode(TRANSPARENT);
@@ -326,7 +326,7 @@ void printRules(PIMAGE rules) {
 void printWin(PIMAGE win, PIMAGE bkg) {
 	clear_reset(bkg);
 	int lose_edge = 450;
-	int posx = (WIDTH - lose_edge) / 2 + 30, posy = TITLESIZE + 50;                    //图片位置：左右居中略微偏右，标题下方20像素处
+	int posx = (WIDTH - lose_edge) / 2 + 30, posy = TITLESIZE + 50;                         //图片位置：左右居中略微偏右，标题下方20像素处
 	putimage(posx, posy, win);
 	setfont(30, 0, "华文隶书");
 	setcolor(RED);
@@ -345,7 +345,7 @@ void printFinalwin(PIMAGE win2_final) {
 void printLose(PIMAGE lose, PIMAGE bkg) {
 	clear_reset(bkg);
 	int lose_edge = 450;
-	int posx = (WIDTH - lose_edge) / 2 + 30, posy = TITLESIZE + 50;                    //图片位置：左右居中略微偏右，标题下方20像素处
+	int posx = (WIDTH - lose_edge) / 2 + 30, posy = TITLESIZE + 50;                         //图片位置：左右居中略微偏右，标题下方20像素处
 	putimage(posx, posy, lose);
 	setfont(20, 0, "幼圆");
 	setcolor(EGERGB(155, 48, 255));
@@ -361,7 +361,7 @@ void printLose(PIMAGE lose, PIMAGE bkg) {
 	xyprintf(posx + 10, posy + 0.9 * lose_edge - 4, "ESC键退出，或者 ENTER键 再来一次！");
 }
 
-void printScore() {                                                                    //输出分数
+void printScore() {                                                                         //输出分数
 	score0 = score > score0 ? score : score0;
 	char ch[10];
 	setcolor(score_color());
@@ -379,16 +379,16 @@ void printScore() {                                                             
 }
 
 int main() {
-	PIMAGE p[15];                                                                      //空白图片，108*108 留待存储0到16384一共十一张图
-	PIMAGE win;                                                                        //空白图片，450*450
-	PIMAGE lose;                                                                       //空白图片，450*450
-	PIMAGE bkg;                                                                        //空白图片，650*680 留待存储背景
-	PIMAGE rules;                                                                      //空白图片，650*680 留待存储规则
-	PIMAGE final_win;			                                                       //空白图片，650*680 留待存储终结胜利
-	bool isquit = false;                                                               //是否退出程序：0表示不退出，1表示退出
+	PIMAGE p[15];                                                                           //空白图片，108*108 留待存储0到16384一共十一张图
+	PIMAGE win;                                                                             //空白图片，450*450
+	PIMAGE lose;                                                                            //空白图片，450*450
+	PIMAGE bkg;                                                                             //空白图片，650*680 留待存储背景
+	PIMAGE rules;                                                                           //空白图片，650*680 留待存储规则
+	PIMAGE final_win;			                                                            //空白图片，650*680 留待存储终结胜利
+	bool isquit = false;                                                                    //是否退出程序：0表示不退出，1表示退出
 
 	/*设置窗口*/
-	initgraph(WIDTH, HEIGHT);	                                                       //设置整个窗口为 WIDTH * HEIGHT 像素
+	initgraph(WIDTH, HEIGHT);	                                                            //设置整个窗口为 WIDTH * HEIGHT 像素
 	cleardevice();
 	setcaption("Whywait团队：GAME2048");
 
@@ -414,18 +414,18 @@ int main() {
 	getimage(rules     = newimage(), "Images\\rules.jpg");
 	getimage(final_win = newimage(), "Images\\胜利.jpg");
 
-	while (!isquit) {                                                                  //除非点击ESC，否则可以反复开局
-		score = 0;                                                                     //每一局开始初始化分数
-		ismove = true;                                                                 //矩阵状态是否改变。true：改变；false：没有改变。以决定是否要调用random函数
-		bool isOK = true;                                                              //是否可以继续运行(算法判定）。true：没死， false：死了。
-		bool have2048 = false;                                                         //矩阵中是否存在2048。true：有；false：没有。
-		int** nums = init_nums();                                                      //当前状态矩阵
-		int nums_assist_size = REDO_TIMES;                                             //撤销步数上界
+	while (!isquit) {                                                                       //除非点击ESC，否则可以反复开局
+		score = 0;                                                                          //每一局开始初始化分数
+		ismove = true;                                                                      //矩阵状态是否改变。true：改变；false：没有改变。以决定是否要调用random函数
+		bool isOK = true;                                                                   //是否可以继续运行(算法判定）。true：没死， false：死了。
+		bool have2048 = false;                                                              //矩阵中是否存在2048。true：有；false：没有。
+		int** nums = init_nums();                                                           //当前状态矩阵
+		int nums_assist_size = REDO_TIMES;                                                  //撤销步数上界
 		int*** nums_assist = (int***)calloc(nums_assist_size, sizeof(int**));
 		for (int i = 0; i < nums_assist_size; i++)
 			nums_assist[i] = init_nums();
 
-		printRules(rules);                                                             //告知玩家规则
+		printRules(rules);                                                                  //告知玩家规则
 
 		int ch = 0;
 		while (ch != ESC && ch != ENTER)
@@ -433,8 +433,8 @@ int main() {
 		if (ch == ESC) break;
 
 		while (isOK) {
-			clear_reset(bkg);                                                          //刷新并重新打印背景
-			printScore();                                                              //打印分数以及历史最高得分
+			clear_reset(bkg);                                                               //刷新并重新打印背景
+			printScore();                                                                   //打印分数以及历史最高得分
 			if (ismove) {
 				random_2or4(nums);
 				if (!is_same(nums, nums_assist[0]))
@@ -443,16 +443,10 @@ int main() {
 
 			refresh(nums, p);
 
-			if (!can_continue(nums)) {                                                 //判断：如果不能继续游戏（就是死了）
-				getch();
-				isOK = false;
-				break;                                                                 //跳出循环
-			}
-
-			if (iswin(nums, 16384)) {                                                  //如果得到了最高数值的方块
+			if (iswin(nums, 16384)) {                                                       //如果得到了最高数值的方块
 				printFinalwin(final_win);
 				getch();
-				return 0;                                                              //任意键结束游戏
+				return 0;                                                                   //任意键结束游戏
 			}
 
 			if (have2048 == false && iswin(nums, 2048)) {
@@ -468,30 +462,36 @@ int main() {
 				if (ch == ENTER) continue;
 			}
 
+			if (!can_continue(nums)) {                                                      //判断：如果不能继续游戏（就是死了）
+				getch();
+				isOK = false;
+				break;                                                                      //跳出循环
+			}
+
 			if (isquit) break;
-			ismove = false;                                                            //初始化变量
+			ismove = false;                                                                 //初始化变量
 			int ch = getch();
 			int temp_i = 0;
 			switch (ch) {
 			case ESC:
-				isquit = 1;                                                            //输出ESC键退出游戏
+				isquit = 1;                                                                 //输出ESC键退出游戏
 				break;
 			case REDO:
 				for (temp_i = 0; temp_i < nums_assist_size; temp_i++) {
 					bool condition1 = is_zeros(nums_assist[temp_i]);
 					bool condition2 = temp_i > 0 && is_same(nums_assist[temp_i], nums_assist[temp_i - 1]);
-					if (condition1 || condition2) {                                    //如果为零矩阵或者与前一个矩阵相同（此时该索引以及后面的矩阵都是相同的，故跳出循环减少时间）
+					if (condition1 || condition2) {                                         //如果为零矩阵或者与前一个矩阵相同（此时该索引以及后面的矩阵都是相同的，故跳出循环减少时间）
 						temp_i--; break;
 					}
-					if (!is_same(nums, nums_assist[temp_i])) {                         //找到与当前状态不同的前一个状态矩阵
+					if (!is_same(nums, nums_assist[temp_i])) {                              //找到与当前状态不同的前一个状态矩阵
 						nums = deep_copy(nums_assist[temp_i]);
 						break;
 					}
 				}
-				adjust_nums_assist(nums, nums_assist, nums_assist_size, temp_i, false);//重新调整协助状态矩阵数组
+				adjust_nums_assist(nums, nums_assist, nums_assist_size, temp_i, false);		//重新调整协助状态矩阵数组
 				break;
 			case LEFT:
-				left(nums);                                                            //两次调用方向函数是为了使消除完全彻底，下同
+				left(nums);                                                                 //两次调用方向函数是为了使消除完全彻底，下同
 				left(nums);
 				break;
 			case RIGHT:
@@ -506,12 +506,12 @@ int main() {
 				down(nums);
 				down(nums);
 			}
-			if (isquit) break;			                                               //退出循环
+			if (isquit) break;			                                                    //退出循环
 		}
 		if (!isOK) {
 			printLose(lose, bkg);
 			int ch = 0;
-			while (ch != ENTER && ch != ESC) {                                         //直到输入ESC或者ESC
+			while (ch != ENTER && ch != ESC) {                                              //直到输入ESC或者ESC
 				ch = getch();
 				if (ch == ESC) isquit = true;
 			}
